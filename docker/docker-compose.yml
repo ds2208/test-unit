@@ -1,0 +1,47 @@
+version: '2.0'
+services:
+    db:
+        container_name: "${COMPOSE_PROJECT_NAME}_db"
+        image: mariadb:latest
+        volumes:
+            - ../:/opt:delegated
+        working_dir: /opt
+        env_file: .env
+        # Uncomment to expose the database to an eternal port
+        #
+        # When uncommented, you can connect to your database (in the local environment) like so:
+        # mysql -h 127.0.0.1 -P {$EXTERNAL_PORT_DB} -u root -p
+        #
+        ports:
+            - "$EXTERNAL_PORT_DB:3306"
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: "${COMPOSE_PROJECT_NAME}_phpmyadmin"
+        links:
+            - db
+        env_file: .env
+    phpfpm:
+        container_name: "${COMPOSE_PROJECT_NAME}_${COMPOSE_PHP_MODULE}"
+        image: cubesdoo/php-fpm:latest
+        volumes:
+            - ../:/opt:delegated
+            - ./phpfpm.conf:/usr/local/etc/php-fpm.d/default.conf:delegated
+            - ./php.ini:/usr/local/etc/php/conf.d/php.ini:delegated
+        working_dir: /opt
+        links:
+            - db
+        env_file: .env
+    nginx:
+        container_name: "${COMPOSE_PROJECT_NAME}_${COMPOSE_WEB_SERVER}"
+        image: nginx:latest
+        ports:
+            - "$EXTERNAL_PORT:80"
+        volumes:
+            - ../:/opt:delegated
+            - ./nginx.conf:/etc/nginx/conf.d/default.conf:delegated
+        working_dir: /opt
+        links:
+            - phpfpm
+            - phpmyadmin
+        env_file: .env
+        
