@@ -129,7 +129,6 @@ class ColorsController extends Controller {
         session()->flash('system_message', 'Ads have been ordered!');
         return redirect()->route('admin.ads.index');
     }
-
     
     public function changeIndex(Request $request) {
         
