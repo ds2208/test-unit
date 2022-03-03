@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\ColorsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,4 +17,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::prefix('/colors')->group(function () {
+    Route::get("/list", [ColorsController::class, 'list']);
+    // Route::get("/get-product-by-id", [SyncProductsController::class, 'getProductById']);
+    // Route::get("/get-product-nuances", [SyncProductsController::class, 'getProductNuancesForSync']);
 });

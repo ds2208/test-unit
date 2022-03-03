@@ -8,16 +8,11 @@ use App\Models\Color;
 
 class ColorsController extends Controller {
 
-    public function index(Request $request) {
-
-        $ads = Ad::query()
-                ->orderBy('priority')
-                ->get();
-
-        return view('admin.ads.index', [
-            'ads' => $ads,
-        ]);
+    public function list()
+    {
+        return Color::all();
     }
+
 
     public function add(Request $request) {
         return view('admin.ads.add');
