@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAdsTable extends Migration
+class CreateColorsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,11 @@ class CreateAdsTable extends Migration
      */
     public function up()
     {
-        Schema::create('ads', function (Blueprint $table) {
+        Schema::create('colors', function (Blueprint $table) {
             $table->id();
-            $table->integer('priority');
-            $table->string('title');
-            $table->string('photo')->nullable();
-            $table->string('button_title');
-            $table->longText('url');
-            $table->boolean('index')->default(0);
+            $table->string('name');
+            $table->string('hex_value', 7);
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
     }
@@ -32,6 +29,6 @@ class CreateAdsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ads');
+        Schema::dropIfExists('colors');
     }
 }

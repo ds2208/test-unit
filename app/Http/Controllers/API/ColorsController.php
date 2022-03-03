@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Ad;
-use Illuminate\Validation\Rule;
+use App\Models\Color;
 
-class AdsController extends Controller {
+class ColorsController extends Controller {
 
     public function index(Request $request) {
 

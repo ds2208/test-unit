@@ -5,16 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Ad extends Model {
+class Color extends Model {
 
     use HasFactory;
 
     //ATTR
-    protected $table = 'ads';
+    protected $table = 'colors';
+    
     protected $fillable = [
-        'title',
-        'button_title',
-        'url'
+        'name',
+        'hex_value',
+        'status'
     ];
 
     //OTHERS
