@@ -1,1 +1,1 @@
-# solar-system-project
+# laravel-react apps
