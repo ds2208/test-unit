@@ -1,14 +1,39 @@
 /laravel/public/storage
 /laravel/storage/*.key
 /laravel/vendor
-laravel.env
-laravel.env.backup
-laravel.env.production
-laravel.phpunit.result.cache
-laraveldocker-compose.override.yml
-laravelHomestead.json
-laravelHomestead.yaml
-laravelnpm-debug.log
-laravelyarn-error.log
-laravelcomposer.lock
-laravel.idea
+/laravel/public
+laravel/.env
+laravel/.env.backup
+laravel/.env.production
+laravel/.phpunit.result.cache
+laravel/docker-compose.override.yml
+laravel/Homestead.json
+laravel/Homestead.yaml
+laravel/npm-debug.log
+laravel/yarn-error.log
+laravel/composer.lock
+laravel/.idea
+
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/react-color-crud/node_modules
+/react-color-crud/.pnp
+.pnp.js
+
+# testing
+/react-color-crud/coverage
+
+# production
+/react-color-crud/build
+
+# misc
+react-color-crud/.DS_Store
+react-color-crud/.env.local
+react-color-crud/.env.development.local
+react-color-crud/.env.test.local
+react-color-crud/.env.production.local
+
+react-color-crud/npm-debug.log*
+react-color-crud/yarn-debug.log*
+react-color-crud/yarn-error.log*
