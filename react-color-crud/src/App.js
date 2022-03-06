@@ -1,24 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useEffect, useState} from "react";
+import { getColors } from "./colors-service";
+import "./style/app.css";
+import Table from "./components/Table";
+import Form from "./components/Form";
 
 function App() {
+
+  const [colors, setColors] = useState([]);
+
+  useEffect(()=> {
+    getColors().then(result => {
+      setColors(result.data);
+    })
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Table colors = {colors}/>
+      <Form setColors = {setColors}/>
+    </>
   );
 }
 
