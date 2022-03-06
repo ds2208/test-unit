@@ -5,20 +5,34 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Color;
+use App\Http\Resources\Json as JsonResource;
 
 class ColorsController extends Controller {
 
     public function list()
     {
-        return Color::all();
+        return Color::query()->limit(5)->get();
     }
 
 
-    public function add(Request $request) {
-        return view('admin.ads.add');
+    public function create(Request $request) {
+
+        $data = $request->validate([
+            'name' => 'required|string',
+            'hex_value' => 'required|string|min:6|max:6',
+            'status' => 'required|boolean'
+        ]);
+
+        $newColor = new Color();
+        $newColor->fill($data);
+        $newColor->save();
+
+        if ($request->wantsJson()) {
+            return JsonResource::make($newColor)->withSuccess(__('New color has been saved!'));
+        }
     }
 
-    public function insert(Request $request) {
+    public function edit(Request $request, Color $color) {
         
         $formData = $request->validate([
             'title' => ['required', 'string', 'min:2', 'unique:ads,title'],
@@ -27,135 +41,29 @@ class ColorsController extends Controller {
             'photo' => ['nullable', 'file', 'image', 'max:65000']
         ]);
 
-        $adWithHighestPriority = Ad::query()
-                ->orderBy('priority', 'desc')
-                ->first();
-        
-        $newAd = new Ad();
 
-        if ($adWithHighestPriority) {
-            $newAd->priority = $adWithHighestPriority->priority + 1;
-        } else {
-            $newAd->priority = 1;
+        if ($request->wantsJson()) {
+            return JsonResource::make()->withSuccess(__('Color has been changed!'));
         }
-        
-        if ($request->hasFile('photo')) {
-            $photoFile = $request->file('photo');
-            $photoFileName = $newAd->id . '_' . $photoFile->getClientOriginalName();
-
-            $photoFile->move(public_path('/storage/ads/'), $photoFileName);
-
-            $newAd->photo = $photoFileName;
-            $newAd->save();
-
-            \Image::make(public_path('/storage/ads/' . $newAd->photo))
-                    ->fit(1280, 868)
-                    ->save();
-        }      
-        
-        $newAd->fill($formData)->save();
-
-        session()->flash('system_message', 'Ad has been added!');
-        return redirect()->route('admin.ads.index');
     }
 
-    public function edit(Request $request, Ad $ad) {
-        return view('admin.ads.edit', [
-            'ad' => $ad
-        ]);
-    }
+    public function delete(Request $request, Color $color) {
 
-    public function update(Request $request, Ad $ad) {
-        
-        $formData = $request->validate([
-            'title' => ['required', 'string', 'max:50', Rule::unique('ads')->ignore($ad->id)],
-            'button_title' => ['required', 'string', 'min:2', 'max:20'],
-            'url' => ['required', 'url', 'min:10', 'max:255'],
-            'photo' => ['nullable', 'file', 'image', 'max:65000']
-        ]);
+        $color->delete();
 
-        $ad->fill($formData)->save();
-        
-        if ($request->hasFile('photo')) {
-            $ad->deletePhoto();
-
-            $photoFile = $request->file('photo');
-            $photoFileName = $ad->id . '_' . $photoFile->getClientOriginalName();
-
-            $photoFile->move(public_path('/storage/ads/'), $photoFileName);
-
-            $ad->photo = $photoFileName;
-            $ad->save();
-
-            \Image::make(public_path('/storage/ads/' . $ad->photo))
-                    ->fit(1280, 868)
-                    ->save();
+        if ($request->wantsJson()) {
+            return JsonResource::make()->withSuccess(__('Color has been deleted!'));
         }
-
-        session()->flash('system_message', 'Ad has been edited!');
-        return redirect()->route('admin.ads.index');
     }
 
-    public function delete(Request $request) {
-
-        $formData = $request->validate([
-            'id' => ['required', 'numeric', 'exists:ads,id']
+    public function changeStatus(Request $request, Color $color) {
+        
+        $color->update([
+            'active' => !$color->active,
         ]);
-
-        $ad = Ad::findOrFail($formData['id']);
-        $ad->delete();
-
-        Ad::query()
-                ->where('priority', '>', $ad->priority)
-                ->decrement('priority');
-
-        session()->flash('system_message', 'Ad has been deleted!');
-        return redirect()->route('admin.ads.index');
-    }
-
-    public function changePriorities(Request $request) {
-        $formData = $request->validate([
-            'priorities' => ['required', 'string']
-        ]);
-
-        $priorities = explode(',', $formData['priorities']); //change string to array
-
-        foreach ($priorities as $key => $id) {
-            $ad = Ad::findOrFail($id);
-            $ad->priority = $key + 1;
-            $ad->save();
+        
+        if ($request->wantsJson()) {
+            return JsonResource::make()->withSuccess(__('Color status has been changed!'));
         }
-
-        session()->flash('system_message', 'Ads have been ordered!');
-        return redirect()->route('admin.ads.index');
     }
-    
-    public function changeIndex(Request $request) {
-        
-        $formData = $request->validate([
-            'id' => ['required', 'numeric', 'exists:ads,id']
-        ]);
-        
-        $ad = Ad::findOrFail($formData['id']);
-        $ad->changeIndex()->save();
-
-        session()->flash(
-                'system_message',
-                __('Featured of :ad has been changed!', ['ad' => $ad->title])
-                );
-        return redirect()->route('admin.ads.index');
-    }
-    
-    public function deletePhoto(Request $request, Ad $ad){
-        
-        $ad->deletePhoto();
-        $ad->photo = null;
-        $ad->save();
-        
-        return response()->json([
-            "system_message" => "Photo has been deleted",
-            "photo" => $ad->getPhotoUrl()
-        ]);
-    }
-
 }

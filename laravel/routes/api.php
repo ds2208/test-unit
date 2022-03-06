@@ -21,6 +21,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::prefix('/colors')->group(function () {
     Route::get("/list", [ColorsController::class, 'list']);
-    // Route::get("/get-product-by-id", [SyncProductsController::class, 'getProductById']);
-    // Route::get("/get-product-nuances", [SyncProductsController::class, 'getProductNuancesForSync']);
+    Route::post("/create", [ColorsController::class, 'create']);
+    Route::post("/{color}/edit", [ColorsController::class, 'edit']);
+    Route::post("/{color}/change-status", [ColorsController::class, 'changeStatus']);
+    Route::post("/{color}/delete", [ColorsController::class, 'delete']);
 });
