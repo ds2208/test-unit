@@ -11,7 +11,7 @@ class ColorsController extends Controller {
 
     public function list()
     {
-        return Color::query()->limit(5)->get();
+        return Color::all();
     }
 
 
@@ -32,20 +32,12 @@ class ColorsController extends Controller {
         }
     }
 
-    public function edit(Request $request, Color $color) {
-        
-        $formData = $request->validate([
-            'title' => ['required', 'string', 'min:2', 'unique:ads,title'],
-            'button_title' => ['required', 'string', 'min:2', 'max:20'],
-            'url' => ['required', 'url', 'min:10', 'max:255'],
-            'photo' => ['nullable', 'file', 'image', 'max:65000']
-        ]);
-
-
-        if ($request->wantsJson()) {
-            return JsonResource::make()->withSuccess(__('Color has been changed!'));
-        }
-    }
+    // public function edit(Request $request, Color $color) {
+    //     $data = $request->validate([]);
+    //     if ($request->wantsJson()) {
+    //         return JsonResource::make()->withSuccess(__('Color has been changed!'));
+    //     }
+    // }
 
     public function delete(Request $request, Color $color) {
 
@@ -59,7 +51,7 @@ class ColorsController extends Controller {
     public function changeStatus(Request $request, Color $color) {
         
         $color->update([
-            'active' => !$color->active,
+            'status' => !$color->status,
         ]);
         
         if ($request->wantsJson()) {

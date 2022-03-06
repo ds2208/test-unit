@@ -22,7 +22,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::prefix('/colors')->group(function () {
     Route::get("/list", [ColorsController::class, 'list']);
     Route::post("/create", [ColorsController::class, 'create']);
-    Route::post("/{color}/edit", [ColorsController::class, 'edit']);
-    Route::post("/{color}/change-status", [ColorsController::class, 'changeStatus']);
-    Route::post("/{color}/delete", [ColorsController::class, 'delete']);
+    // Route::patch("/{color}/edit", [ColorsController::class, 'edit']);
+    Route::patch("/{color}/change-status", [ColorsController::class, 'changeStatus']);
+    Route::delete("/{color}/delete", [ColorsController::class, 'delete']);
 });

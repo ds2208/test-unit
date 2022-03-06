@@ -16,8 +16,14 @@ function App() {
 
   return (
     <>
-      <Table colors = {colors}/>
-      <Form setColors = {setColors}/>
+      <Table 
+        colors = {colors} 
+        setColors = {setColors}
+        />
+      <Form 
+        colors = {colors} 
+        setColors = {setColors} 
+        />
     </>
   );
 }

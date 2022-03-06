@@ -1,8 +1,7 @@
-import React, {useState} from "react";
+import React from "react";
 import Color from "./Color";
-import "../style/app.css";
 
-function Table({colors}) {
+function Table({colors, setColors}) {
 
   return (
     <table>
@@ -17,7 +16,15 @@ function Table({colors}) {
           </tr>
         </thead>
         <tbody>
-            {colors.map(oneColor => <Color key = {oneColor.id} color = {oneColor}/>)}
+            {colors.map(
+              oneColor => 
+                <Color 
+                  key = {oneColor.id} 
+                  color = {oneColor} 
+                  colors = {colors} 
+                  setColors = {setColors}
+                  />
+            )}
         </tbody>
     </table>
   );
