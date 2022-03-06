@@ -24,7 +24,7 @@ class ColorsTableSeeder extends Seeder
         \DB::table($this->tablename)->truncate();
 
         // SEED TABLE
-        $rows = 50;
+        $rows = 10;
         $this->command->info('Creating ' . $rows . ' rows');
         $bar = $this->command->getOutput()->createProgressBar();
         $bar->start();

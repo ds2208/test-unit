@@ -25,6 +25,7 @@ class ColorsController extends Controller {
 
         $newColor = new Color();
         $newColor->fill($data);
+        $newColor->hex_value = "#" . $data['hex_value'];
         $newColor->save();
 
         if ($request->wantsJson()) {
