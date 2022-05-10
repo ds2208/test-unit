@@ -2,29 +2,15 @@
 
 namespace App\Http\Resources;
 
-/*
- * Class
- *
- * PHP version 7.2
- *
- * @category   class
- * @copyright  2015-2018 Cubes d.o.o.
- * @license    GPL http://opensource.org/licenses/gpl-license.php GNU Public License
- * @version    GIT: 1.0.0
- */
-
 use Illuminate\Http\Resources\Json\JsonResource as BaseResource;
 
 /**
  * Description of JsonResource
  */
-class Json extends BaseResource
+class Json extends BaseResource implements ResponseBaseOpportunities
 {
-    const STATUS_OK = 'ok';
-    const STATUS_ERROR = 'error';
-    
-    protected $locale;
-    protected $status = 'ok';
+    protected $locale = 'en';
+    protected $status = self::STATUS_OK;
     protected $message = '';
     
     
@@ -44,18 +30,6 @@ class Json extends BaseResource
         }
         
         return parent::__construct($resource);
-    }
-    
-    /**
-     * Create new anonymous resource collection.
-     *
-     * @param mixed $resource
-     *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
-    public static function collection($resource)
-    {
-        return new JsonResourceCollection($resource, get_called_class());
     }
     
     /**
