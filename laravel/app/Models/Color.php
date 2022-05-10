@@ -19,36 +19,14 @@ class Color extends Model {
     ];
 
     //OTHERS
-    public function getPhotoUrl() {
-        return '/themes/front/img/' . $this->photo;
+    public function handleHexValue($hexValue) {
+        $this->hex_value = "#" . $hexValue;
     }
 
-    public function deletePhoto() {
-        if (!$this->photo) {
-            return $this;
-        }
-
-        $photoPath = public_path('/storage/ads/' . $this->photo);
-
-        if (is_file($photoPath)) {
-            unlink($photoPath);
-        }
+     public function changeStatus() {
+        $this->update([
+            'status' => !$this->status,
+        ]);
         return $this;
-    }
-
-     public function changeIndex() {
-        if ($this->index == 0) {
-            $this->index = 1;
-            return $this;
-        }
-        $this->index = 0;
-        return $this;
-    }
-    
-    public function isOnIndexPage(){
-        if($this->index == 1){
-            return true;
-        }
-        return false;
     }
 }

@@ -2,18 +2,23 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Color;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\Json as JsonResource;
+use App\Http\Resources\Api\Filter\ColorResource;
 
 class ColorsController extends Controller {
 
     public function list()
     {
-        return Color::all();
+        $colors = Color::where('status', 1)
+            ->orderBy('name')
+            ->limit(10)
+            ->get();
+        
+        return JsonResource::make(ColorResource::collection($colors))->withSuccess(__('List of color are sent!'));
     }
-
 
     public function create(Request $request) {
 
@@ -25,11 +30,11 @@ class ColorsController extends Controller {
 
         $newColor = new Color();
         $newColor->fill($data);
-        $newColor->hex_value = "#" . $data['hex_value'];
+        $newColor->handleHexValue($data['hex_value']);
         $newColor->save();
 
         if ($request->wantsJson()) {
-            return JsonResource::make($newColor)->withSuccess(__('New color has been saved!'));
+            return JsonResource::make(new ColorResource($newColor))->withSuccess(__('New color has been saved!'));
         }
     }
 
@@ -49,14 +54,12 @@ class ColorsController extends Controller {
         }
     }
 
-    public function changeStatus(Request $request, Color $color) {
-        
-        $color->update([
-            'status' => !$color->status,
-        ]);
+    public function changeStatus(Request $request, Color $color)
+    {
+        $color->changeStatus();
         
         if ($request->wantsJson()) {
-            return JsonResource::make()->withSuccess(__('Color status has been changed!'));
+            return JsonResource::make(new ColorResource($color))->withSuccess(__('Color status has been changed!'));
         }
     }
 }
