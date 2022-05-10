@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\API;
 
+use Redirect;
 use App\Models\Color;
-use Illuminate\Http\Request;
+use App\Http\Requests\ColorRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Json as JsonResource;
 use App\Http\Resources\Api\Filter\ColorResource;
@@ -20,13 +21,9 @@ class ColorsController extends Controller {
         return JsonResource::make(ColorResource::collection($colors))->withSuccess(__('List of color are sent!'));
     }
 
-    public function create(Request $request) {
+    public function create(ColorRequest $request) {
 
-        $data = $request->validate([
-            'name' => 'required|string',
-            'hex_value' => 'required|string|min:6|max:6',
-            'status' => 'required|boolean'
-        ]);
+        $data = $request->validated();
 
         $newColor = new Color();
         $newColor->fill($data);
@@ -36,30 +33,32 @@ class ColorsController extends Controller {
         if ($request->wantsJson()) {
             return JsonResource::make(new ColorResource($newColor))->withSuccess(__('New color has been saved!'));
         }
+        // return Redirect::route('index');
     }
 
-    // public function edit(Request $request, Color $color) {
+    // public function edit(ColorRequest $request, Color $color) {
     //     $data = $request->validate([]);
     //     if ($request->wantsJson()) {
     //         return JsonResource::make()->withSuccess(__('Color has been changed!'));
     //     }
     // }
 
-    public function delete(Request $request, Color $color) {
+    public function delete(ColorRequest $request, Color $color) {
 
         $color->delete();
 
         if ($request->wantsJson()) {
             return JsonResource::make()->withSuccess(__('Color has been deleted!'));
         }
+        // return Redirect::route('index');
     }
 
-    public function changeStatus(Request $request, Color $color)
+    public function changeStatus(ColorRequest $request, Color $color)
     {
         $color->changeStatus();
-        
         if ($request->wantsJson()) {
             return JsonResource::make(new ColorResource($color))->withSuccess(__('Color status has been changed!'));
         }
+        // return Redirect::route('index');
     }
 }
