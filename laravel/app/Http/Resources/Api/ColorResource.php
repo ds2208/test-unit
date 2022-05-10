@@ -1,11 +1,24 @@
 <?php
 
-namespace App\Http\Resources\Api\Filter;
+namespace App\Http\Resources\Api;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ColorResource extends JsonResource
 {
+    protected $route_prefix = "api.products";
+
+    /**
+     * Create a new resource instance.
+     *
+     * @param  mixed  $resource
+     * @return void
+     */
+    public function __construct($resource)
+    {
+        $this->resource = $resource;
+    }
+
     /**
      * Transform the resource into an array.
      *
@@ -13,11 +26,6 @@ class ColorResource extends JsonResource
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
     public function toArray($request)
-    {
-        return $this->getData();
-    }
-
-    protected function getData()
     {
         return [
             'id' => $this->id,

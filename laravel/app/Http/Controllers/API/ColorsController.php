@@ -7,7 +7,7 @@ use App\Models\Color;
 use App\Http\Requests\ColorRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Json as JsonResource;
-use App\Http\Resources\Api\Filter\ColorResource;
+use App\Http\Resources\Api\ColorResource;
 
 class ColorsController extends Controller {
 
@@ -18,7 +18,7 @@ class ColorsController extends Controller {
             ->limit(10)
             ->get();
         
-        return JsonResource::make(ColorResource::collection($colors))->withSuccess(__('List of color are sent!'));
+        return JsonResource::make(['colors' => ColorResource::collection($colors)])->withSuccess(__('List of color are sent!'));
     }
 
     public function create(ColorRequest $request)
@@ -31,7 +31,7 @@ class ColorsController extends Controller {
         $newColor->save();
 
         if ($request->wantsJson()) {
-            return JsonResource::make(new ColorResource($newColor))->withSuccess(__('New color has been saved!'));
+            return JsonResource::make(['created_color' => new ColorResource($newColor)])->withSuccess(__('New color has been saved!'));
         }
         // return Redirect::route('handle_route');
     }
@@ -62,7 +62,7 @@ class ColorsController extends Controller {
         $color->changeStatus();
 
         if ($request->wantsJson()) {
-            return JsonResource::make(new ColorResource($color))->withSuccess(__('Color status has been changed!'));
+            return JsonResource::make(['edited_color' => new ColorResource($color)])->withSuccess(__('Color status has been changed!'));
         }
         // return Redirect::route('handle_route');
     }

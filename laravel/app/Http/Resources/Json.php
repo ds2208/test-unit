@@ -7,9 +7,29 @@ use Illuminate\Http\Resources\Json\JsonResource as BaseResource;
 /**
  * Description of JsonResource
  */
-class Json extends BaseResource implements ResponseBaseOpportunities
+class Json extends BaseResource
 {
-    protected $locale = 'en';
+    const STATUS_OK = 200;
+    const STATUS_CREATED = 201;
+    const STATUS_ACCEPTED = 202;
+    const STATUS_NO_CONTENT = 204;
+    const STATUS_MOVED_PERMANENTLY = 301;
+    const STATUS_NOT_MODIFIED = 304;
+    const STATUS_TEMPORARY_REDIRECT = 307;
+    const STATUS_PERMANENT_REDIRECT = 308;
+    const STATUS_BAD_REQUEST = 400;
+    const STATUS_UNAUTHORIZED = 401;
+    const STATUS_PAGE_NOT_FOUND = 404;
+    const STATUS_NOT_ALLOWED = 405;
+    const STATUS_REQUEST_TIMEOUT = 408;
+    const STATUS_VALIDATION_FAILD = 412;
+    const STATUS_ERROR = 500;
+    
+    
+    const LOCALE_EN = 'en';
+    const LOCALE_rs = 'rs';
+
+    protected $locale = self::LOCALE_EN;
     protected $status = self::STATUS_OK;
     protected $message = '';
     
