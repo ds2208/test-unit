@@ -21,8 +21,8 @@ class ColorsController extends Controller {
         return JsonResource::make(ColorResource::collection($colors))->withSuccess(__('List of color are sent!'));
     }
 
-    public function create(ColorRequest $request) {
-
+    public function create(ColorRequest $request)
+    {
         $data = $request->validated();
 
         $newColor = new Color();
@@ -33,32 +33,37 @@ class ColorsController extends Controller {
         if ($request->wantsJson()) {
             return JsonResource::make(new ColorResource($newColor))->withSuccess(__('New color has been saved!'));
         }
-        // return Redirect::route('index');
+        // return Redirect::route('handle_route');
     }
 
-    // public function edit(ColorRequest $request, Color $color) {
-    //     $data = $request->validate([]);
-    //     if ($request->wantsJson()) {
-    //         return JsonResource::make()->withSuccess(__('Color has been changed!'));
-    //     }
-    // }
+    public function edit(ColorRequest $request, Color $color)
+    {
+        $data = $request->validate([]);
+        $color->update($data);
 
-    public function delete(ColorRequest $request, Color $color) {
+        if ($request->wantsJson()) {
+            return JsonResource::make()->withSuccess(__('Color has been changed!'));
+        }
+        // return Redirect::route('handle_route');
+    }
 
+    public function delete(ColorRequest $request, Color $color)
+    {
         $color->delete();
 
         if ($request->wantsJson()) {
             return JsonResource::make()->withSuccess(__('Color has been deleted!'));
         }
-        // return Redirect::route('index');
+        // return Redirect::route('handle_route');
     }
 
     public function changeStatus(ColorRequest $request, Color $color)
     {
         $color->changeStatus();
+
         if ($request->wantsJson()) {
             return JsonResource::make(new ColorResource($color))->withSuccess(__('Color status has been changed!'));
         }
-        // return Redirect::route('index');
+        // return Redirect::route('handle_route');
     }
 }
