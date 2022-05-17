@@ -14,8 +14,9 @@ class ColorsController extends Controller {
     public function list()
     {
         $colors = Color::where('status', 1)
+            ->orWhere('status', 0)
             ->orderBy('name')
-            ->limit(10)
+            ->limit(50)
             ->get();
         
         return JsonResource::make(['colors' => ColorResource::collection($colors)])->withSuccess(__('List of color are sent!'));

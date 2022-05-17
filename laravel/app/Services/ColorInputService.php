@@ -3,11 +3,9 @@
 namespace App\Services;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\RequestOptions;
 use Carbon\Carbon;
-use App\Models\Measurement;
 
-class SolarOptimizationService
+class ColorInputService
 {
 
     protected $client;
@@ -30,7 +28,6 @@ class SolarOptimizationService
             ]
         ];
     }
-
 
     public function getDataFromService()
     {
