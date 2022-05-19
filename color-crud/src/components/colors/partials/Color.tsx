@@ -1,22 +1,41 @@
+import { useState } from "react";
 import { IoCloseCircleOutline, IoColorWandOutline, IoGitCompareOutline } from "react-icons/io5";
+import { changeStatus } from "../../../services/colors-service";
 
-function Color(props: ColorProps) {
+function Color({ color, removeColor }: ColorProps) {
+
+  const [id, setId] = useState(color.id);
+  const [name, setName] = useState(color.name);
+  const [hex_value, setHexValue] = useState(color.hex_value);
+  const [status, setStatus] = useState(color.status);
+  
+
+  const changeActive = (colorId: number): any => {
+    const response = changeStatus(colorId);
+    response.catch(errors => {
+      console.log(errors);
+    }).then(result => {
+      if (result) {
+        setStatus(result.data.data.color.status);
+      }
+    });
+  }
 
   return (
     <tr>
-      <td>{props.color.id ?? "#"}</td>
-      <td>{props.color.name ?? ""}</td>
-      <td>{props.color.hex_value ?? "N/A"}</td>
-      <td>{props.color.status ? "Active" : "Disabled"}</td>
+      <td>{id ?? "#"}</td>
+      <td>{name ?? ""}</td>
+      <td>{hex_value ?? "N/A"}</td>
+      <td>{status ? "Active" : "Disabled"}</td>
       <td>
         <a className='btn btn-outline-warning m-3' href="#">
-          <IoColorWandOutline></IoColorWandOutline>
+          <IoColorWandOutline />
         </a>
-        <a className='btn btn-outline-info m-3' href="#">
-          <IoGitCompareOutline></IoGitCompareOutline>
+        <a className='btn btn-outline-info m-3' onClick={ () => (changeActive(id))}>
+          <IoGitCompareOutline />
         </a>
-        <a className='btn btn-outline-danger m-3' href="#">
-          <IoCloseCircleOutline></IoCloseCircleOutline>
+        <a className='btn btn-outline-danger m-3' onClick={ () => (removeColor(id))}>
+          <IoCloseCircleOutline />
         </a>
       </td>
     </tr>
@@ -24,13 +43,14 @@ function Color(props: ColorProps) {
   );
 }
 
-type ColorProps = {
+interface ColorProps {
   color: {
-      id: number,
-      name: string,
-      hex_value: string,
-      status: boolean
-  }
+    id: number,
+    name: string,
+    hex_value: string,
+    status: boolean
+  },
+  removeColor: any
 };
 
 export default Color;

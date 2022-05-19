@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { createColor } from "../../../services/colors-service";
-import Toaster from "../../_layout/Toaster";
-import List from "../List";
 
 function ColorForm(props: ColorFormProps) {
 
+  const navigate = useNavigate();
   const [colorName, setColorName] = useState('');
   const [colorHexValue, setColorHexValue] = useState('');
   const [colorStatus, setColorStatus] = useState(false);
@@ -15,7 +14,7 @@ function ColorForm(props: ColorFormProps) {
   const [colorErrorHexValue, setColorErrorHexValue] = useState('');
   const [colorErrorStatus, setColorErrorStatus] = useState('');
 
-  const handleSubmit= (e: any) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
     const response = createColor(colorName, colorHexValue, colorStatus);
     response.catch(errors => {
@@ -27,7 +26,7 @@ function ColorForm(props: ColorFormProps) {
       }
     }).then(result => {
       if(result) {
-        window.location.href = '/colors';
+        navigate('/colors');
       }
   });
   }

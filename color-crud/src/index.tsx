@@ -28,16 +28,18 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <React.StrictMode>
+<>
     <Header navItems={navItems} />
     <BrowserRouter>
         <Routes>
           <Route index element={<Dashboard />} />
-          <Route path='/colors' element={<List />} />
-          <Route path='/colors/new' element={<Create />} />
+          <Route path='colors'>
+            <Route path='' element={<List />} />
+            <Route path='new' element={<Create />} />
+          </Route>
         </Routes>
     </BrowserRouter>
-  </React.StrictMode>
+    </>
 );
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

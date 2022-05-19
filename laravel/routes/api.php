@@ -23,6 +23,6 @@ Route::prefix('/colors')->group(function () {
     Route::get("/list", [ColorsController::class, 'list']);
     Route::post("/create", [ColorsController::class, 'create']);
     // Route::patch("/{color}/edit", [ColorsController::class, 'edit']);
-    Route::patch("/{color}/change-status", [ColorsController::class, 'changeStatus']);
+    Route::post("/{color}/change-status", [ColorsController::class, 'changeStatus']);
     Route::delete("/{color}/delete", [ColorsController::class, 'delete']);
 });

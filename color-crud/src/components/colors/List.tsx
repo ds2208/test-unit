@@ -1,18 +1,30 @@
 import { useEffect, useState } from 'react';
 import { Container, Card, Table } from 'react-bootstrap';
 import { IoAddCircleSharp } from 'react-icons/io5';
-import { getColors } from '../../services/colors-service';
+import { deleteColor, getColors } from '../../services/colors-service';
 import Color from './partials/Color';
 
 function List() {
 
   const [colors, setColors] = useState<any[]>([]);
 
-  useEffect(()=> {
+  useEffect(() => {
     getColors().then(result => {
       setColors(result.data.data.colors);
     })
   }, []);
+
+  const removeColor = (colorId: number): any => {
+    const response = deleteColor(colorId);
+    response.catch(errors => {
+      console.log(errors);
+    }).then(result => {
+      if (result) {
+        const newColors = colors.filter((color) => color.id !== colorId);
+        setColors(newColors);
+      }
+    });
+  }
 
   return (
     <Container className='mt-5'>
@@ -35,9 +47,8 @@ function List() {
             <tbody>
               {
                 colors.map(color => {
-                  console.log(color);
                   return (
-                    <Color key={color.id} color={color}></Color>
+                    <Color key={color.id} color={color} removeColor={removeColor}></Color>
                   )
                 })
               }

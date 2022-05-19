@@ -8,6 +8,7 @@ use App\Http\Requests\ColorRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Json as JsonResource;
 use App\Http\Resources\Api\ColorResource;
+use Symfony\Component\HttpFoundation\Request;
 
 class ColorsController extends Controller {
 
@@ -32,7 +33,7 @@ class ColorsController extends Controller {
         $newColor->save();
 
         if ($request->wantsJson()) {
-            return JsonResource::make(['created_color' => new ColorResource($newColor)])->withSuccess(__('New color has been saved!'));
+            return JsonResource::make(['color' => new ColorResource($newColor)])->withSuccess(__('New color has been saved!'));
         }
         // return Redirect::route('handle_route');
     }
@@ -48,7 +49,7 @@ class ColorsController extends Controller {
         // return Redirect::route('handle_route');
     }
 
-    public function delete(ColorRequest $request, Color $color)
+    public function delete(Request $request, Color $color)
     {
         $color->delete();
 
@@ -58,12 +59,12 @@ class ColorsController extends Controller {
         // return Redirect::route('handle_route');
     }
 
-    public function changeStatus(ColorRequest $request, Color $color)
+    public function changeStatus(Request $request, Color $color)
     {
         $color->changeStatus();
 
         if ($request->wantsJson()) {
-            return JsonResource::make(['edited_color' => new ColorResource($color)])->withSuccess(__('Color status has been changed!'));
+            return JsonResource::make(['color' => new ColorResource($color)])->withSuccess(__('Color status has been changed!'));
         }
         // return Redirect::route('handle_route');
     }
