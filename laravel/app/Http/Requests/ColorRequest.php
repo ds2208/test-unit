@@ -33,28 +33,28 @@ class ColorRequest extends FormRequest
             'status' => ['required', 'boolean']
         ];
         
-        if($request->action){
+        // if($request->action){
             
-            $rules = array_merge($rules, [
-                'publish_at_fixed' => ['required', 'integer', 'in:0,1'],
-                'publish_at' => ['required_if:publish_at_fixed,0', 'date_format:d.m.Y H:i'],
-                'comment_text' => ['nullable', 'string']
-            ]);
+        //     $rules = array_merge($rules, [
+        //         'publish_at_fixed' => ['required', 'integer', 'in:0,1'],
+        //         'publish_at' => ['required_if:publish_at_fixed,0', 'date_format:d.m.Y H:i'],
+        //         'comment_text' => ['nullable', 'string']
+        //     ]);
 
-            if($request->action == 'send-to-desk'){
-                $rules = array_merge($rules, [
-                    'author_initials' => ['required', 'string']
-                ]);
-            } else if($request->action == 'schedule-emit'){
-                $rules = array_merge($rules, [
-                    "schedule_emit_at" => ["required", "date_format:d.m.Y H:i", "after_or_equal:".now()->format('d.m.Y H:i')],
-                ]);
-            } else {
-                $rules = array_merge($rules, [
-                    "send_to_id" => ["required", "integer"]
-                ]); 
-            }
-        }
+        //     if($request->action == 'send-to-desk'){
+        //         $rules = array_merge($rules, [
+        //             'author_initials' => ['required', 'string']
+        //         ]);
+        //     } else if($request->action == 'schedule-emit'){
+        //         $rules = array_merge($rules, [
+        //             "schedule_emit_at" => ["required", "date_format:d.m.Y H:i", "after_or_equal:".now()->format('d.m.Y H:i')],
+        //         ]);
+        //     } else {
+        //         $rules = array_merge($rules, [
+        //             "send_to_id" => ["required", "integer"]
+        //         ]); 
+        //     }
+        // }
 
         return $rules;
     }

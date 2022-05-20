@@ -38,11 +38,23 @@ class ColorsController extends Controller {
         // return Redirect::route('handle_route');
     }
 
+    public function getColorById(Request $request, $id)
+    {
+        $color = Color::firstWhere('id', $id);
+        if(!$color) {
+            return JsonResource::make([])->withError(__('Color does not exist!'));
+        }
+        return JsonResource::make(['color' => new ColorResource($color)])->withSuccess(__('Color sent!'));
+    }
+
     public function edit(ColorRequest $request, Color $color)
     {
-        $data = $request->validate([]);
-        $color->update($data);
+        $data = $request->validated();
 
+        $color->update($data);
+        $color->handleHexValue($data['hex_value']);
+        $color->save();
+        
         if ($request->wantsJson()) {
             return JsonResource::make()->withSuccess(__('Color has been changed!'));
         }

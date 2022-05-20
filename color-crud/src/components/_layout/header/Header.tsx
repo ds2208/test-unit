@@ -26,7 +26,7 @@ function Header(props: HeaderProps) {
                                     {
                                         props.navItems.map(item => {
                                             return (
-                                            <Nav.Link key={item.id} href={item.link}>{item.name}</Nav.Link>
+                                            <Nav.Link key={item.id} href={item.link} className="text-light">{item.name}</Nav.Link>
                                             )
                                         })
                                     }

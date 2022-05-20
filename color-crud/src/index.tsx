@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 
@@ -9,6 +9,7 @@ import Header from './components/_layout/header/Header';
 import List from './components/colors/List';
 import Create from './components/colors/Create';
 import Dashboard from './components/Dashboard';
+import Edit from './components/colors/Edit';
 
 
 const navItems = [
@@ -36,6 +37,7 @@ root.render(
           <Route path='colors'>
             <Route path='' element={<List />} />
             <Route path='new' element={<Create />} />
+            <Route path=':id/edit' element={<Edit />} />
           </Route>
         </Routes>
     </BrowserRouter>
