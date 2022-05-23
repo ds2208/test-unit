@@ -7,15 +7,16 @@ use Carbon\Carbon;
 
 class ColorInputService
 {
+    const DATE = '22.08.1994.';
 
     protected $client;
     protected $entryPoint;
     protected $options = [];
 
-    public function __construct($entryPoint = 'ExternalApi')
+    public function __construct($entryPoint = 'external-api')
     {
         $this->client = (new Client([
-            'base_uri' => 'https://usersupport.dexpress.rs/', //'http://109.245.241.249:8080',
+            'base_uri' => 'https://address.com/',
             'verify' => false,
         ]));
 
@@ -23,8 +24,8 @@ class ColorInputService
 
         $this->options = [
             'auth' => [
-                '71AFEE37-64FA-4D6E-B402-7ADFB540C201',
-                '@kf7)Q2c}g'
+                'username',
+                'password'
             ]
         ];
     }
@@ -41,19 +42,19 @@ class ColorInputService
     }
 
     /**
-     * Function get list of municipalities from Dexpress side
+     * Function get all data example
      * 
      * @param Carbon $date
      * @return Array $response
      */
-    protected function getMunicipalitiesData($date = null)
+    protected function getAllData($date = null)
     {
         $options = array_merge($this->options, [
             'query' => [
                 'date' => $date ?? self::DATE
             ],
         ]);
-        $response = $this->makeRequest('/data/municipalities', $options);
+        $response = $this->makeRequest('/data/all', $options);
         return $response;
     }
 
