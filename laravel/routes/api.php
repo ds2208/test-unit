@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\API\ColorsController;
 
 /*
@@ -14,6 +15,7 @@ use App\Http\Controllers\API\ColorsController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::delete("/handle-route", [Controller::class, 'handleRoute'])->name('handle_route');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
@@ -26,4 +28,5 @@ Route::prefix('/colors')->group(function () {
     Route::patch("/{color}/edit", [ColorsController::class, 'edit']);
     Route::patch("/{color}/change-status", [ColorsController::class, 'changeStatus']);
     Route::delete("/{color}/delete", [ColorsController::class, 'delete']);
+    
 });
