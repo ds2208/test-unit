@@ -32,7 +32,7 @@ function Color({ color, removeColor }: ColorProps) {
       <td>{id ?? "#"}</td>
       <td>{name ?? ""}</td>
       <td>{hex_value ?? "N/A"}</td>
-      <td>{status ? "Active" : "Disabled"}</td>
+      <td className={status ? "text-success" : "text-danger"}>{status ? "Active" : "Disabled"}</td>
       <td>
         <a className='btn btn-outline-warning m-3' onClick={() => (fetchToChangeColor(id))}>
           <IoColorWandOutline />

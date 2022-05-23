@@ -19,9 +19,10 @@ class ColorsController extends Controller
      */
     public function list()
     {
-        $colors = Color::active()
-            ->inactive()
-            ->orderBy('name')
+        $colors = Color::
+            // ->active()
+            // ->inactive()
+            orderBy('name')
             ->limit(50)
             ->get();
 
