@@ -30,8 +30,8 @@ const root = ReactDOM.createRoot(
 );
 root.render(
 <>
-    <Header navItems={navItems} />
     <BrowserRouter>
+      <Header navItems={navItems} />
         <Routes>
           <Route index element={<Dashboard />} />
           <Route path='colors'>

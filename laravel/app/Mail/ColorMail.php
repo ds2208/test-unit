@@ -40,8 +40,6 @@ class ColorMail extends Mailable
             ->from('danilo.strahinovic@gmail.com', "Test")
             ->view($this->namespace . 'color_mail', [
                 'data' => $this->data ?? [],
-                'socialMedia' => [],
-                'appLinks' => []
             ])->subject($this->subject);
         
         // foreach ($this->attachedFiles as $file) {

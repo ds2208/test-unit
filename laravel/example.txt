@@ -1,0 +1,7 @@
+0. Read me!
+
+1. Delete example.txt & helper folder!
+
+2. Update laravel on new version!
+
+3. Write tests!

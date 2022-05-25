@@ -40,7 +40,7 @@ class ColorsController extends Controller
         $data = $request->validated();
 
         try {
-            $newColor = Color::WcreateNewEntity($data);
+            $newColor = Color::createNewEntity($data);
             $newColor->handleHexValue($data['hex_value']);
             $newColor->save();
             // $mail = new MailHandler('danilo.strahinovic@gmail.com');

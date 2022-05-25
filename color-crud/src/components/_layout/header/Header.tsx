@@ -1,4 +1,5 @@
 import { Button, Container, Form, FormControl, Nav, Navbar, Offcanvas } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 function Header(props: HeaderProps) {
 
@@ -10,7 +11,7 @@ function Header(props: HeaderProps) {
                         <Navbar.Brand href="/">
                             Color CRUD
                         </Navbar.Brand>
-                        <Navbar.Toggle aria-controls="offcanvasNavbar-expand" />
+                        <Navbar.Toggle aria-controls="offcanvasNavbar-expand show" />
                         <Navbar.Offcanvas
                             id="offcanvasNavbar-expand"
                             aria-labelledby="offcanvasNavbarLabel-expand"
@@ -26,7 +27,9 @@ function Header(props: HeaderProps) {
                                     {
                                         props.navItems.map(item => {
                                             return (
-                                            <Nav.Link key={item.id} href={item.link} className="text-light">{item.name}</Nav.Link>
+                                                <Link key={item.id} to={item.link} className="text-light">
+                                                    {item.name}
+                                                </Link>
                                             )
                                         })
                                     }
