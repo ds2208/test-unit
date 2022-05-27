@@ -1,25 +1,26 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Http\Controllers\API;
 
 use App\Models\Color;
+// use App\Mail\ColorMail;
+// use App\Lib\MailHandler;
 use App\Http\Requests\ColorRequest;
-use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\ColorResource;
 use App\Http\Resources\Json as JsonResource;
-use App\Lib\MailHandler;
-use App\Mail\ColorMail;
 use Symfony\Component\HttpFoundation\Request;
 
-class ColorsController extends Controller
+class ColorsController extends \App\Http\Controllers\Controller
 {
-
+    
     /**
      * Function return list of Colors in json format.
      * 
      * @return json
      */
-    public function list()
+    public function list(): JsonResource
     {
         try {
             $colors = Color::/*active()->inactive()*/orderBy('name')->limit(50)->get();
@@ -35,16 +36,14 @@ class ColorsController extends Controller
      * 
      * @return mixed
      */
-    public function create(ColorRequest $request)
+    public function create(ColorRequest $request): JsonResource
     {
         $data = $request->validated();
-
+        
         try {
             $newColor = Color::createNewEntity($data);
             $newColor->handleHexValue($data['hex_value']);
             $newColor->save();
-            // $mail = new MailHandler('danilo.strahinovic@gmail.com');
-            // $mail->sendMail(ColorMail::class);
         } catch (\Throwable $th) {
             logger('Create color error: ' . $th->getMessage());
             return JsonResource::make([])->withError(__('Error!'));
@@ -54,7 +53,7 @@ class ColorsController extends Controller
         if ($request->wantsJson()) {
             return JsonResource::make(['color' => new ColorResource($newColor)])->withSuccess(__('New color has been saved!'));
         }
-        return redirect()::route('handle_route');
+        return abort(500, __('Server error'));
     }
 
     /**
@@ -62,7 +61,7 @@ class ColorsController extends Controller
      * 
      * @param int $id
      */
-    public function getColorById(Request $request, $id)
+    public function getColorById(Request $request, int $id): JsonResource
     {
         try {
             $color = Color::firstWhere('id', $id);
@@ -83,7 +82,7 @@ class ColorsController extends Controller
      * @param Color $color
      * @return mixed
      */
-    public function edit(ColorRequest $request, Color $color)
+    public function edit(ColorRequest $request, Color $color): JsonResource
     {
         $data = $request->validated();
 
@@ -97,7 +96,7 @@ class ColorsController extends Controller
         if ($request->wantsJson()) {
             return JsonResource::make()->withSuccess(__('Color has been changed!'));
         }
-        return redirect()::route('handle_route');
+        return abort(500, __('Server error'));
     }
 
     /**
@@ -106,7 +105,7 @@ class ColorsController extends Controller
      * @param Color $color
      * @return mixed
      */
-    public function delete(Request $request, Color $color)
+    public function delete(Request $request, Color $color): JsonResource
     {
         try {
             $color->delete();
@@ -118,7 +117,7 @@ class ColorsController extends Controller
         if ($request->wantsJson()) {
             return JsonResource::make()->withSuccess(__('Color has been deleted!'));
         }
-        return redirect()::route('handle_route');
+        return abort(500, __('Server error'));
     }
 
     /**
@@ -127,7 +126,7 @@ class ColorsController extends Controller
      * @param Color $color
      * @return mixed
      */
-    public function changeStatus(Request $request, Color $color)
+    public function changeStatus(Request $request, Color $color): JsonResource
     {
         try {
             $color->changeStatus();
@@ -139,6 +138,6 @@ class ColorsController extends Controller
         if ($request->wantsJson()) {
             return JsonResource::make(['color' => new ColorResource($color)])->withSuccess(__('Color status has been changed!'));
         }
-        return redirect()::route('handle_route');
+        return abort(500, __('Server error'));
     }
 }

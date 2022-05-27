@@ -12,7 +12,7 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function handleRoute()
+    public function handleRoute(): Json
     {
         return Json::make()->withError(__("Something went wrong!!!"));
     }
