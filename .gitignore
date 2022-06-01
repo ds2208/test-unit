@@ -1,7 +1,7 @@
 /laravel/public/storage
 /laravel/storage/*.key
 /laravel/vendor
-/laravel/public
+# /laravel/public
 laravel/.env
 laravel/.env.backup
 laravel/.env.production
