@@ -6,8 +6,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class ColorResource extends JsonResource
 {
-    protected $route_prefix = "api.products";
-
     /**
      * Create a new resource instance.
      *

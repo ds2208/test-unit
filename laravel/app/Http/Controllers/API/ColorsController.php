@@ -1,29 +1,29 @@
 <?php
 
-declare(strict_types = 1);
-
 namespace App\Http\Controllers\API;
 
 use App\Models\Color;
-// use App\Mail\ColorMail;
-// use App\Lib\MailHandler;
-use App\Http\Requests\ColorRequest;
+use App\Http\Controllers\Controller;
+
 use App\Http\Resources\Api\ColorResource;
 use App\Http\Resources\Json as JsonResource;
-use Symfony\Component\HttpFoundation\Request;
 
-class ColorsController extends \App\Http\Controllers\Controller
+use App\Http\Requests\ColorRequest;
+use Illuminate\Http\Request;
+
+
+class ColorsController extends Controller
 {
     
     /**
-     * Function return list of Colors in json format.
+     * Function return list of colors in json format.
      * 
-     * @return json
+     * @return JsonResource
      */
-    public function list(): JsonResource
+    public function list()
     {
         try {
-            $colors = Color::/*active()->inactive()*/orderBy('name')->limit(50)->get();
+            $colors = Color::query()->orderBy('name')->limit(50)->get();
         } catch (\Throwable $th) {
             logger('Color list error: ' . $th->getMessage());
             return JsonResource::make([])->withError(__('Error!'));
@@ -36,10 +36,9 @@ class ColorsController extends \App\Http\Controllers\Controller
      * 
      * @return mixed
      */
-    public function create(ColorRequest $request): JsonResource
+    public function create(ColorRequest $request)
     {
         $data = $request->validated();
-        
         try {
             $newColor = Color::createNewEntity($data);
             $newColor->handleHexValue($data['hex_value']);
@@ -61,7 +60,7 @@ class ColorsController extends \App\Http\Controllers\Controller
      * 
      * @param int $id
      */
-    public function getColorById(Request $request, int $id): JsonResource
+    public function getColorById(Request $request, int $id)
     {
         try {
             $color = Color::firstWhere('id', $id);
@@ -69,7 +68,6 @@ class ColorsController extends \App\Http\Controllers\Controller
             logger('Get color by id error: ' . $th->getMessage());
             return JsonResource::make([])->withError(__('Error!'));
         }
-
         if (!$color) {
             return JsonResource::make([])->withError(__('Color does not exist!'));
         }
@@ -82,17 +80,15 @@ class ColorsController extends \App\Http\Controllers\Controller
      * @param Color $color
      * @return mixed
      */
-    public function edit(ColorRequest $request, Color $color): JsonResource
+    public function edit(ColorRequest $request, Color $color)
     {
         $data = $request->validated();
-
         try {
             $color->edit($data);
         } catch (\Throwable $th) {
             logger('Edit color error: ' . $th->getMessage());
             return JsonResource::make([])->withError(__('Error!'));
         }
-
         if ($request->wantsJson()) {
             return JsonResource::make()->withSuccess(__('Color has been changed!'));
         }
@@ -105,7 +101,7 @@ class ColorsController extends \App\Http\Controllers\Controller
      * @param Color $color
      * @return mixed
      */
-    public function delete(Request $request, Color $color): JsonResource
+    public function delete(Request $request, Color $color)
     {
         try {
             $color->delete();
@@ -113,7 +109,6 @@ class ColorsController extends \App\Http\Controllers\Controller
             logger('Delete color error: ' . $th->getMessage());
             return JsonResource::make([])->withError(__('Error!'));
         }
-
         if ($request->wantsJson()) {
             return JsonResource::make()->withSuccess(__('Color has been deleted!'));
         }
@@ -126,7 +121,7 @@ class ColorsController extends \App\Http\Controllers\Controller
      * @param Color $color
      * @return mixed
      */
-    public function changeStatus(Request $request, Color $color): JsonResource
+    public function changeStatus(Request $request, Color $color)
     {
         try {
             $color->changeStatus();
@@ -134,7 +129,6 @@ class ColorsController extends \App\Http\Controllers\Controller
             logger('Change color status error: ' . $th->getMessage());
             return JsonResource::make([])->withError(__('Error!'));
         }
-
         if ($request->wantsJson()) {
             return JsonResource::make(['color' => new ColorResource($color)])->withSuccess(__('Color status has been changed!'));
         }

@@ -2,7 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Controller;
 use App\Http\Controllers\API\ColorsController;
 
 /*
@@ -15,10 +14,13 @@ use App\Http\Controllers\API\ColorsController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::post("/handle-route", [Controller::class, 'handleRoute'])->name('handle_route');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::get('/dashboard', function () {
+    return 'welcome to dashboard!';
 });
 
 Route::prefix('/colors')->group(function () {
