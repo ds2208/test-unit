@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { IoCloseCircleOutline, IoColorWandOutline, IoGitCompareOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { changeStatus } from "../../../services/colors-service";
 import PopUp from "../../_layout/PopUp";
 
-function Color({ color, removeColor, handleShowChangeToast }: ColorProps) {
+function Color({ color, removeColor }: ColorProps) {
 
   const navigate = useNavigate();
   const [id, setId] = useState(color.id);
@@ -27,7 +28,7 @@ function Color({ color, removeColor, handleShowChangeToast }: ColorProps) {
       if (result) {
         setStatus(result.data.data.color.status);
         handleShowChange();
-        handleShowChangeToast();
+        toast.success("Color status has been changed!");
       }
     });
   }
@@ -84,8 +85,7 @@ interface ColorProps {
     hex_value: string,
     status: boolean
   },
-  removeColor: any,
-  handleShowChangeToast: any
+  removeColor: any
 };
 
 export default Color;

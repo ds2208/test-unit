@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { createColor, editColor, getColorById } from "../../../services/colors-service";
 
 function ColorForm({ colorId }: ColorFormProps) {
@@ -34,10 +35,12 @@ function ColorForm({ colorId }: ColorFormProps) {
           setColorErrorName(validationErrors.name ? validationErrors.name[0] : "");
           setColorErrorHexValue(validationErrors.hex_value ? validationErrors.hex_value[0] : "");
           setColorErrorStatus(validationErrors.status ? validationErrors.status[0] : "");
+          toast.error("Error!", );
         }
       }).then(result => {
         if (result) {
           navigate('/colors');
+          toast.success("Color has been created!", );
         }
       });
     } else {
@@ -48,10 +51,12 @@ function ColorForm({ colorId }: ColorFormProps) {
           setColorErrorName(validationErrors.name ? validationErrors.name[0] : "");
           setColorErrorHexValue(validationErrors.hex_value ? validationErrors.hex_value[0] : "");
           setColorErrorStatus(validationErrors.status ? validationErrors.status[0] : "");
+          toast.error("Error!", );
         }
       }).then(result => {
         if (result) {
           navigate('/colors');
+          toast.success("Color has been edited!");
         }
       });
     }

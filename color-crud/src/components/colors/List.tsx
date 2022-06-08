@@ -3,21 +3,18 @@ import { Container, Card, Table } from 'react-bootstrap';
 import { IoAddCircleSharp } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import { deleteColor, getColors } from '../../services/colors-service';
-import Toaster from '../_layout/Toaster';
+import { toast } from 'react-toastify';
 import Color from './partials/Color';
 
 function List() {
 
   const [colors, setColors] = useState<any[]>([]);
-  const [showChangeToast, setShowChangeToast] = useState(false);
 
   useEffect(() => {
     getColors().then(result => {
       setColors(result.data.data.colors);
     })
   }, []);
-
-  const handleShowChangeToast = () => setShowChangeToast(!showChangeToast);
 
   const removeColor = (colorId: number): any => {
     const response = deleteColor(colorId);
@@ -27,19 +24,13 @@ function List() {
       if (result) {
         const newColors = colors.filter((color) => color.id !== colorId);
         setColors(newColors);
+        toast.success("Color has been removed!");
       }
     });
   }
 
   return (
     <>
-      <Toaster
-        id="status"
-        show={showChangeToast}
-        title="Change Status"
-        message="Status has been changed!"
-        handleShow={handleShowChangeToast}
-      />
       <Container className='mt-5'>
         <Card bg='dark' text="light" border='light'>
           <Card.Header className='d-flex justify-content-between'>
@@ -61,7 +52,7 @@ function List() {
                 {
                   colors.map(color => {
                     return (
-                      <Color key={color.id} color={color} removeColor={removeColor} handleShowChangeToast={handleShowChangeToast}></Color>
+                      <Color key={color.id} color={color} removeColor={removeColor}></Color>
                     )
                   })
                 }
