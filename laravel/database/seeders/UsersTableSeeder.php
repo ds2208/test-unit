@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UsersTableSeeder extends Seeder
 {
@@ -16,13 +18,13 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        \DB::table('users')->truncate();
+        DB::table('users')->truncate();
         // GET TABLE NAME
         $this->tablename = (new User())->getTable();
 
         // TRUNCATE TABLE
         $this->command->info('Truncating ' . $this->tablename);
-        \DB::table($this->tablename)->truncate();
+        DB::table($this->tablename)->truncate();
 
         // SEED TABLE
         $rows = 2;
@@ -30,16 +32,16 @@ class UsersTableSeeder extends Seeder
         $bar = $this->command->getOutput()->createProgressBar();
         $bar->start();
 
-        \DB::table('users')->insert([
+        DB::table('users')->insert([
             'status' => 1,
             'name' => 'Danilo Strahinovic',
             'email' => 'danilo.strahinovic@gmail.com',
-            'password' => \Hash::make('danilo123'),
+            'password' => Hash::make('danilo123'),
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
         $bar->advance(1);
-        \DB::table('users')->insert([
+        DB::table('users')->insert([
             'status' => 0,
             'name' => 'Sara Bircanin',
             'phone' => '0649876541',
