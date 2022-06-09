@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Color;
+use Illuminate\Support\Facades\DB;
 
 class ColorsTableSeeder extends Seeder
 {
@@ -21,10 +22,10 @@ class ColorsTableSeeder extends Seeder
 
         // TRUNCATE TABLE
         $this->command->info('Truncating ' . $this->tablename);
-        \DB::table($this->tablename)->truncate();
+        DB::table($this->tablename)->truncate();
 
         // SEED TABLE
-        $rows = 10;
+        $rows = 50;
         $this->command->info('Creating ' . $rows . ' rows');
         $bar = $this->command->getOutput()->createProgressBar();
         $bar->start();

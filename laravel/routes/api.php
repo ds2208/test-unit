@@ -26,9 +26,9 @@ Route::get('/dashboard', function () {
 Route::prefix('/colors')->group(function () {
     Route::get("/list", [ColorsController::class, 'list']);
     Route::get("/{id}", [ColorsController::class, 'getColorById']);
-    Route::post("/create", [ColorsController::class, 'create']);
-    Route::patch("/{color}/edit", [ColorsController::class, 'edit']);
-    Route::patch("/{color}/change-status", [ColorsController::class, 'changeStatus']);
-    Route::delete("/{color}/delete", [ColorsController::class, 'delete']);
+    Route::post("/create", [ColorsController::class, 'create'])->middleware(['forgetCacheToken:colors']);
+    Route::patch("/{color}/edit", [ColorsController::class, 'edit'])->middleware(['forgetCacheToken:colors']);
+    Route::patch("/{color}/change-status", [ColorsController::class, 'changeStatus'])->middleware(['forgetCacheToken:colors']);
+    Route::delete("/{color}/delete", [ColorsController::class, 'delete'])->middleware(['forgetCacheToken:colors']);
     
 });
