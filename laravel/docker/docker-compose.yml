@@ -22,7 +22,7 @@ services:
         env_file: .env
     phpfpm:
         container_name: "${COMPOSE_PROJECT_NAME}_${COMPOSE_PHP_MODULE}"
-        image: cubesdoo/php-fpm:latest
+        image: cubesdoo/php-fpm:8.1
         volumes:
             - ../:/opt:delegated
             - ./phpfpm.conf:/usr/local/etc/php-fpm.d/default.conf:delegated
