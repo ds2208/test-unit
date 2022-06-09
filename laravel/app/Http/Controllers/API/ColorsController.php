@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Color;
 
 use App\Http\Requests\ColorRequest;
-use Symfony\Component\HttpFoundation\Request;
+use Illuminate\Http\Request;
 
 use App\Http\Resources\Api\ColorResource;
 use App\Http\Resources\Json as JsonResource;
